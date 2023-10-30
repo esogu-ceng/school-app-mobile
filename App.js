@@ -1,41 +1,30 @@
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import WelcomePage from "./src/containers/welcomePage/welcomePage";
-import SignInPage from "./src/containers/signInPage/signInPage";
-import SignUpPage from "./src/containers/signUpPage/signUpPage";
-import MainPage from "./src/containers/mainPage/mainPage";
-import { AppProvider } from "./src/context/AppContext";
-import "./App.css";
-import { NativeBaseProvider } from 'native-base';
-function App() {
-  const router = createBrowserRouter([
-    {
-      path: "/welcome",
-      element: <WelcomePage />,
-    },
-    {
-      path: "/signIn",
-      element: <SignInPage />,
-    },
-    {
-      path: "/signUp",
-      element: <SignUpPage />,
-    },
-    {
-      path: "/",
-      element: <MainPage />,
-    },
-  ]);
+import React from 'react';
 
+import Login from './screens/Login';
+import YearList from './screens/YearList';
+
+import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
+
+
+const Stack = createStackNavigator();
+
+function App() {
   return (
-	<div className="App">
-	  <NativeBaseProvider>
-		 <AppProvider>
-			<RouterProvider router={router}>
-			</RouterProvider>
-		 </AppProvider>
-	  </NativeBaseProvider>
-	</div>
- );
+    <Stack.Navigator screenOptions={{headerShown: false}} >
+      <Stack.Screen name="Login" component={Login} />
+      <Stack.Screen name="Years" component={YearList} />
+    </Stack.Navigator>
+  );
 }
 
-export default App;
+
+export default () => {
+  return (
+    <NavigationContainer>
+     
+        <App />
+      
+    </NavigationContainer>
+  )
+}

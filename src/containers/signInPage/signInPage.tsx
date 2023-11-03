@@ -25,7 +25,7 @@ function SignInPage({ navigation }) {
 			<Text style={styles.label}>Kullanıcı Adı</Text>
 			<TextInput
 				style={styles.input}
-				placeholder="kullanıcı adını gir"
+				placeholder="Kullanıcı adını gir"
 				value={username}
 				onChangeText={setUsername}
 			/>

@@ -38,7 +38,7 @@ function ResetPasswordPage({ navigation }) {
 		 	style={styles.returnSignInButton}
           onPress={navigateToSignInPage}
         >
-          <Text style={styles.returnSignInButtonText}>Giriş Sayfasına Dön</Text>
+          <Text style={styles.returnSignInButtonText}>Giriş</Text>
         </TouchableOpacity>
 
 	  </View>

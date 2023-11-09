@@ -38,7 +38,7 @@ function ResetPasswordPage({ navigation }) {
 		 	style={styles.returnSignInButton}
           onPress={navigateToSignInPage}
         >
-          <Text style={styles.returnSignInButtonText}>Giriş</Text>
+          <Text style={styles.returnSignInButtonText}>Giriş Yap</Text>
         </TouchableOpacity>
 
 	  </View>

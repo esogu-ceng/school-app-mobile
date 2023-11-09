@@ -11,6 +11,9 @@ function ResetPasswordPage({ navigation }) {
   const goBack = () => {
 	navigation.goBack();
  };
+ const navigateToSignInPage=()=>{
+	navigation.navigate('SignIn');
+ }
   return (
 	<View style={styles.container}>
 	  <View style={styles.formContainer}>
@@ -32,11 +35,11 @@ function ResetPasswordPage({ navigation }) {
 		 </TouchableOpacity>
 
 		 <TouchableOpacity
-			style={styles.backButton}
-			onPress={goBack}
-		 >
-			<Text style={styles.backButtonText}>Önceki Sayfaya Dön</Text>
-		 </TouchableOpacity>
+		 	style={styles.returnSignInButton}
+          onPress={navigateToSignInPage}
+        >
+          <Text style={styles.returnSignInButtonText}>Giriş Sayfasına Dön</Text>
+        </TouchableOpacity>
 
 	  </View>
 	</View>
@@ -86,19 +89,22 @@ const styles = StyleSheet.create({
     alignItems: "center",
     marginVertical: 12,
   },
+  returnSignInButton:{
+	backgroundColor: "#229892",
+	padding: 15,
+	borderRadius: 5,
+	alignItems: "center",
+	marginVertical: 12,
+  },
+  returnSignInButtonText:{
+	color: "white",
+	fontWeight: "bold",
+	fontSize: 16,
+  },
   resetButtonText: {
     color: "white",
     fontWeight: "bold",
     fontSize: 16,
-  },
-  backButton: {
-    alignItems: "center",
-  },
-  backButtonText: {
-    color: "#673AB7",
-    textDecorationLine: "underline",
-    fontSize: 16,
-    marginTop: 8,
   },
 });
 

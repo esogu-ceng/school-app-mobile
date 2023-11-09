@@ -47,7 +47,10 @@ function SignInPage({ navigation }) {
             <Text style={styles.signInButtonText}>Giriş Yap</Text>
         </TouchableOpacity>
 
-			<TouchableOpacity style={styles.forgotPasswordButton}>
+		  <TouchableOpacity 
+				style={styles.forgotPasswordButton}
+				onPress={() => navigation.navigate('ResetPasswordPage')}
+			>
 				<Text style={styles.forgotPasswordText}>Şifremi Unuttum</Text>
 			</TouchableOpacity>
 		</View>

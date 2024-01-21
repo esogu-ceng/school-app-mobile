@@ -23,16 +23,16 @@ function WelcomePage({ navigation }) {
 
   return (
     <View style={styles.welcomePage}>
-      <Text style={{ fontSize: 24 }}>Hoş Geldiniz!</Text>
-      <Text>Uygulamamızı kullanarak ödemelerinizi takip edebilir ve taksitlendirebilirsiniz.</Text>
+      <Text style={{ fontSize: 30 ,fontWeight: "bold"}}>Hoş Geldiniz!</Text>
+      <Text style={{ fontSize: 20 }}>Uygulamamızı kullanarak ödemelerinizi takip edebilir ve taksitlendirebilirsiniz.</Text>
       <View style={styles.buttonGroup}>
         <Button onPress={handleLogin} style={styles.button}>
           <Ionicons name='mail' size={24} color="black" />
-          <Text>Giriş Yap</Text>
+          <Text style={styles.buttonText}>Giriş Yap</Text>
         </Button>
         <Button onPress={handleRegister} style={styles.button}>
           <Ionicons name='person' size={24} color="black" />
-          <Text>Kayıt Ol</Text>
+          <Text style={styles.buttonText}>Kayıt Ol</Text>
         </Button>
       </View>
     </View>
@@ -61,7 +61,10 @@ const styles = StyleSheet.create({
     height: 60,
     width: 200,
     borderRadius: 25,
-  }
+  },
+  buttonText: {
+	fontWeight: "bold",
+ },
 });
 
 export default WelcomePage;

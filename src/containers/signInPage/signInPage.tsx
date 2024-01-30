@@ -37,13 +37,11 @@ function SignInPage({ navigation }) {
 
 			if (response.ok) {
 				const data = await response.text();
-				console.log("Giriş başarılı:", data);
 				navigation.navigate('Home');
 			} else {
 				Alert.alert("Giriş başarısız", "Kullanıcı adı veya şifre yanlış");
 			}
 		} catch (error) {
-			console.error("Giriş yapılırken hata oluştu:", error);
 			Alert.alert("Hata", "Bir hata oluştu. Lütfen tekrar deneyin.");
 		}
 	};

@@ -1,12 +1,14 @@
 import { Ionicons } from "@expo/vector-icons";
 import React, { useState } from "react";
 import {
+	Alert,
 	StyleSheet,
 	Text,
 	TextInput,
 	TouchableOpacity,
 	View,
 } from "react-native";
+import { BASE_API_URL } from "../../../config";
 
 function SignInPage({ navigation }) {
 	const [showEmailSignIn, setShowEmailSignIn] = useState(false);
@@ -20,6 +22,32 @@ function SignInPage({ navigation }) {
 	const handleButtonPressOut = () => {
 		setIsButtonHovered(false);
 	};
+	const signIn = async () => {
+		try {
+			const response = await fetch(`${BASE_API_URL}/users/login`, {
+				method: "POST",
+				headers: {
+					"Content-Type": "application/json",
+				},
+				body: JSON.stringify({
+					mail: username,
+					password: password,
+				}),
+			});
+
+			if (response.ok) {
+				const data = await response.text();
+				console.log("Giriş başarılı:", data);
+				navigation.navigate('Home');
+			} else {
+				Alert.alert("Giriş başarısız", "Kullanıcı adı veya şifre yanlış");
+			}
+		} catch (error) {
+			console.error("Giriş yapılırken hata oluştu:", error);
+			Alert.alert("Hata", "Bir hata oluştu. Lütfen tekrar deneyin.");
+		}
+	};
+
 	const renderEmailSignInForm = () => (
 		<View>
 			<Text style={styles.label}>Kullanıcı Adı</Text>
@@ -39,17 +67,21 @@ function SignInPage({ navigation }) {
 				secureTextEntry={true}
 			/>
 
-			<TouchableOpacity 
-            style={[styles.signInButton, isButtonHovered && styles.signInButtonHovered]} 
-            onPressIn={handleButtonPressIn}
-            onPressOut={handleButtonPressOut}
-        >
-            <Text style={styles.signInButtonText}>Giriş Yap</Text>
-        </TouchableOpacity>
+			<TouchableOpacity
+				style={[
+					styles.signInButton,
+					isButtonHovered && styles.signInButtonHovered,
+				]}
+				onPress={signIn}
+				onPressIn={handleButtonPressIn}
+				onPressOut={handleButtonPressOut}
+			>
+				<Text style={styles.signInButtonText}>Giriş Yap</Text>
+			</TouchableOpacity>
 
-		  <TouchableOpacity 
+			<TouchableOpacity
 				style={styles.forgotPasswordButton}
-				onPress={() => navigation.navigate('ResetPasswordPage')}
+				onPress={() => navigation.navigate("ResetPasswordPage")}
 			>
 				<Text style={styles.forgotPasswordText}>Şifremi Unuttum</Text>
 			</TouchableOpacity>

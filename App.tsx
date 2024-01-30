@@ -1,13 +1,13 @@
-import React from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
-import WelcomePage from "./src/containers/welcomePage/welcomePage";
+import { NativeBaseProvider } from "native-base";
+import React from "react";
+import HomePage from "./src/containers/homePage/homePage";
+import ResetPasswordPage from "./src/containers/resetPasswordPage/resetPasswordPage";
 import SignInPage from "./src/containers/signInPage/signInPage";
 import SignUpPage from "./src/containers/signUpPage/signUpPage";
-import MainPage from "./src/containers/mainPage/mainPage";
+import WelcomePage from "./src/containers/welcomePage/welcomePage";
 import { AppProvider } from "./src/context/AppContext";
-import { NativeBaseProvider } from "native-base";
-import ResetPasswordPage from "./src/containers/resetPasswordPage/resetPasswordPage";
 const Stack = createStackNavigator();
 
 function App() {
@@ -32,8 +32,8 @@ function App() {
 							options={{ headerShown: false }}
 						/>
 						<Stack.Screen
-							name="Home"
-							component={MainPage}
+							name="Home" 
+							component={HomePage}
 							options={{ headerShown: false }}
 						/>
 						<Stack.Screen

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, Image } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, Image, Alert } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 
 const AccordionSection = ({ title, onPress }) => {
@@ -12,6 +12,7 @@ const AccordionSection = ({ title, onPress }) => {
 
 function HomePage({ navigation }) {
   const [menuActive, setMenuActive] = useState(false);
+  const [profileOptionsVisible, setProfileOptionsVisible] = useState(false);
 
   const handleNavigation = (screenName) => {
     console.log(`Navigating to ${screenName}`);
@@ -22,20 +23,34 @@ function HomePage({ navigation }) {
     setMenuActive(!menuActive);
   };
 
+  const handleProfileIconClick = () => {
+    setProfileOptionsVisible(!profileOptionsVisible);
+  };
+
+  const handleEditProfile = () => {
+    Alert.alert('Edit Profile', 'Profile edit functionality not implemented yet.');
+    setProfileOptionsVisible(false);
+  };
+
+  const handleLogout = () => {
+    Alert.alert('Log Out', 'Logout functionality not implemented yet.');
+    setProfileOptionsVisible(false);
+  };
+
   return (
     <View style={styles.container}>
       <View style={styles.appBar}>
         <TouchableOpacity onPress={toggleMenu}>
           <Ionicons name="menu" size={30} color="black" />
         </TouchableOpacity>
-        <Image source={require('../../../assets/icon.jpeg')} style={styles.logo} />
-        <Text style={styles.welcomeText}>BBOM Derneği - Başka Bir Okul Mümkün</Text>
+        <Image source={require('../../../assets/icon.jpg')} style={styles.logo} />
+        <Text style={styles.welcomeText}>Özel Yaşam Köyü -İlkokulu </Text>
         <View style={styles.icons}>
           <TouchableOpacity onPress={() => handleNavigation('Notifications')}>
             <Ionicons name="notifications" size={30} color="black" />
           </TouchableOpacity>
-          <TouchableOpacity onPress={() => handleNavigation('Messages')}>
-            <Ionicons name="mail" size={30} color="black" />
+          <TouchableOpacity onPress={handleProfileIconClick}>
+            <Ionicons name="person-circle" size={30} color="black" />
           </TouchableOpacity>
         </View>
       </View>
@@ -47,6 +62,18 @@ function HomePage({ navigation }) {
           <AccordionSection title="Sınıf Gazetesi" onPress={() => handleNavigation('Newspaper')} />
           <AccordionSection title="Ders Programı" onPress={() => handleNavigation('Schedule')} />
           <AccordionSection title="Duyurular" onPress={() => handleNavigation('Announcements')} />
+          <AccordionSection title="Etkinlikler" onPress={() => handleNavigation('Events')} />
+        </View>
+      )}
+
+      {profileOptionsVisible && (
+        <View style={styles.profileOptions}>
+          <TouchableOpacity style={styles.profileOption} onPress={handleEditProfile}>
+            <Text style={styles.profileOptionText}>Profili Düzenle</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.profileOption} onPress={handleLogout}>
+            <Text style={styles.profileOptionText}>Çıkış</Text>
+          </TouchableOpacity>
         </View>
       )}
 
@@ -107,6 +134,25 @@ const styles = StyleSheet.create({
     height: 50,  
     resizeMode: 'contain', 
   },
+  profileOptions: {
+	position: 'absolute',
+	right: 10,
+	top: 90,
+	backgroundColor: 'white',
+	width: 150,
+	borderRadius: 5,
+	elevation: 10,
+	zIndex: 1000,
+ },
+ profileOption: {
+	padding: 10,
+	borderBottomWidth: 1,
+	borderBottomColor: '#CCCCCC',
+ },
+ profileOptionText: {
+	fontSize: 16,
+	color: 'black',
+ },
 });
 
 export default HomePage;

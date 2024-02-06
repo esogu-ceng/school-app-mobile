@@ -9,7 +9,7 @@ import {
 	View,
 } from "react-native";
 import { BASE_API_URL } from "../../../config";
-
+import { useUser } from "../../context/UserContext";
 function SignInPage({ navigation }) {
 	const [showEmailSignIn, setShowEmailSignIn] = useState(false);
 	const [username, setUsername] = useState("");
@@ -24,6 +24,7 @@ function SignInPage({ navigation }) {
 	const handleButtonPressOut = () => {
 		setIsButtonHovered(false);
 	};
+	const { setUser } = useUser();
 	const signIn = async () => {
 		try {
 			const response = await fetch(`${BASE_API_URL}/users/login`, {
@@ -51,10 +52,10 @@ function SignInPage({ navigation }) {
 
 	const renderEmailSignInForm = () => (
 		<View>
-			<Text style={styles.label}>Kullanıcı Adı</Text>
+			<Text style={styles.label}>Mail Adresi</Text>
 			<TextInput
 				style={styles.input}
-				placeholder="Kullanıcı adını gir"
+				placeholder="Mail adresini gir"
 				value={username}
 				onChangeText={setUsername}
 			/>

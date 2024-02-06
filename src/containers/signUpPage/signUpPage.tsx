@@ -9,7 +9,7 @@ import {
 	View,
 } from "react-native";
 import { BASE_API_URL } from "../../../config";
-
+import { useUser } from "../../context/UserContext";
 const SignUpPage = ({ navigation }) => {
 	const [modalVisible, setModalVisible] = useState(false);
 	const [showEmailSignUp, setShowEmailSignUp] = useState(false);
@@ -19,38 +19,41 @@ const SignUpPage = ({ navigation }) => {
 	const [password, setPassword] = useState("");
 	const [modalMessage, setModalMessage] = useState("");
 	const [isSignUpSuccess, setIsSignUpSuccess] = useState(false);
-
+	const { setUser } = useUser();
 	const signUp = async () => {
 		try {
-			const response = await fetch(`${BASE_API_URL}/users`, {
-				method: "POST",
-				headers: {
-					"Content-Type": "application/json",
-				},
-				body: JSON.stringify({
-					name: name,
-					surname: surname,
-					mail: email,
-					password: password,
-				}),
-			});
-			const data = await response.json();
-
-			if (response.ok) {
-				setIsSignUpSuccess(true);
-				setModalMessage("Kayıt işlemi başarılı. Lütfen giriş yapın.");
-			} else {
-				setIsSignUpSuccess(false);
-				setModalMessage(data.message || "Bir hata oluştu.");
-			}
+		  const response = await fetch(`${BASE_API_URL}/users`, {
+			 method: "POST",
+			 headers: {
+				"Content-Type": "application/json",
+			 },
+			 body: JSON.stringify({
+				name: name,
+				surname: surname,
+				mail: email,
+				password: password,
+			 }),
+		  });
+	 
+		  if (response.ok) {
+			 const data = await response.json(); 
+			 setIsSignUpSuccess(true);
+			 setModalMessage("Kayıt işlemi başarılı.");
+			 setUser(data);
+			 navigation.navigate("Home", { userName: data.name });
+		  } else {
+			 const errorData = await response.json(); 
+			 setIsSignUpSuccess(false);
+			 setModalMessage(errorData.message || "Bir hata oluştu.");
+			 setModalVisible(true);
+		  }
 		} catch (error) {
-			console.error(error);
-			setIsSignUpSuccess(false);
-			setModalMessage("Bir hata oluştu. Lütfen tekrar deneyin.");
-		} finally {
-			setModalVisible(true);
+		  console.error(error);
+		  setIsSignUpSuccess(false);
+		  setModalMessage("Bir hata oluştu. Lütfen tekrar deneyin.");
+		  setModalVisible(true);
 		}
-	};
+	 };
 
 	const renderEmailSignUpForm = () => (
 		<View>
@@ -126,19 +129,7 @@ const SignUpPage = ({ navigation }) => {
 					<View style={styles.centeredView}>
 						<View style={styles.modalView}>
 							<Text style={styles.modalText}>Kayıt Başarılı!</Text>
-							<Text>
-								Kaydınız başarıyla tamamlandı, lütfen giriş yapın.
-							</Text>
-
-							<TouchableOpacity
-								style={[styles.button, styles.buttonClose]}
-								onPress={() => {
-									setModalVisible(!modalVisible);
-									navigation.navigate("SignIn");
-								}}
-							>
-								<Text style={styles.textStyle}>Tamam</Text>
-							</TouchableOpacity>
+							<Text>Kaydınız başarıyla tamamlandı.</Text>
 						</View>
 					</View>
 				</Modal>

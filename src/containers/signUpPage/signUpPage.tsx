@@ -1,7 +1,7 @@
 import { Ionicons } from "@expo/vector-icons";
 import React, { useState } from "react";
 import {
-	Alert,
+	Modal,
 	StyleSheet,
 	Text,
 	TextInput,
@@ -9,13 +9,16 @@ import {
 	View,
 } from "react-native";
 import { BASE_API_URL } from "../../../config";
-function SignUpPage({ navigation }) {
+
+const SignUpPage = ({ navigation }) => {
+	const [modalVisible, setModalVisible] = useState(false);
 	const [showEmailSignUp, setShowEmailSignUp] = useState(false);
 	const [name, setName] = useState("");
 	const [surname, setSurname] = useState("");
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
-	const [modalVisible, setModalVisible] = useState(false);
+	const [modalMessage, setModalMessage] = useState("");
+	const [isSignUpSuccess, setIsSignUpSuccess] = useState(false);
 
 	const signUp = async () => {
 		try {
@@ -31,31 +34,21 @@ function SignUpPage({ navigation }) {
 					password: password,
 				}),
 			});
-
 			const data = await response.json();
 
 			if (response.ok) {
-				Alert.alert(
-					"Kayıt Başarılı",
-					"Kaydınız başarıyla tamamlandı, lütfen giriş yapın.",
-					[
-						{
-							text: "Tamam",
-							onPress: () => navigation.navigate("SignIn"), 
-						},
-					]
-				);
-			} else if (response.status === 409) {
-				Alert.alert(
-					"Kayıt Başarısız",
-					"Bu e-posta adresi zaten kullanımda."
-				);
+				setIsSignUpSuccess(true);
+				setModalMessage("Kayıt işlemi başarılı. Lütfen giriş yapın.");
 			} else {
-				Alert.alert("Kayıt Başarısız", data.message || "Bir hata oluştu.");
+				setIsSignUpSuccess(false);
+				setModalMessage(data.message || "Bir hata oluştu.");
 			}
 		} catch (error) {
 			console.error(error);
-			Alert.alert("Hata", "Bir hata oluştu. Lütfen tekrar deneyin.");
+			setIsSignUpSuccess(false);
+			setModalMessage("Bir hata oluştu. Lütfen tekrar deneyin.");
+		} finally {
+			setModalVisible(true);
 		}
 	};
 
@@ -103,8 +96,6 @@ function SignUpPage({ navigation }) {
 	return (
 		<View style={styles.container}>
 			<View style={styles.signUpContainer}>
-				<Text style={styles.headerText}>Kayıt Ol</Text>
-
 				{showEmailSignUp ? (
 					renderEmailSignUpForm()
 				) : (
@@ -124,6 +115,34 @@ function SignUpPage({ navigation }) {
 					</>
 				)}
 
+				<Modal
+					animationType="slide"
+					transparent={true}
+					visible={modalVisible}
+					onRequestClose={() => {
+						setModalVisible(!modalVisible);
+					}}
+				>
+					<View style={styles.centeredView}>
+						<View style={styles.modalView}>
+							<Text style={styles.modalText}>Kayıt Başarılı!</Text>
+							<Text>
+								Kaydınız başarıyla tamamlandı, lütfen giriş yapın.
+							</Text>
+
+							<TouchableOpacity
+								style={[styles.button, styles.buttonClose]}
+								onPress={() => {
+									setModalVisible(!modalVisible);
+									navigation.navigate("SignIn");
+								}}
+							>
+								<Text style={styles.textStyle}>Tamam</Text>
+							</TouchableOpacity>
+						</View>
+					</View>
+				</Modal>
+
 				<View style={styles.footer}>
 					<Text>Zaten bir hesabın var mı? </Text>
 					<Text
@@ -136,18 +155,19 @@ function SignUpPage({ navigation }) {
 			</View>
 		</View>
 	);
-}
+};
 
 const styles = StyleSheet.create({
 	container: {
 		flex: 1,
 		justifyContent: "center",
 		alignItems: "center",
+		backgroundColor: "#f5f5f5",
 	},
 	signUpContainer: {
 		padding: 20,
 		borderRadius: 10,
-		boxShadow: '0px 2px 2px rgba(0, 0, 0, 0.1)',
+		boxShadow: "0px 2px 2px rgba(0, 0, 0, 0.1)",
 		shadowOpacity: 0.1,
 		shadowRadius: 10,
 		elevation: 5,
@@ -214,6 +234,46 @@ const styles = StyleSheet.create({
 	forgotPasswordText: {
 		color: "#673AB7",
 		textDecorationLine: "underline",
+	},
+	modalView: {
+		margin: 20,
+		backgroundColor: "white",
+		borderRadius: 20,
+		padding: 35,
+		alignItems: "center",
+		shadowColor: "#000",
+		shadowOffset: {
+			width: 0,
+			height: 2,
+		},
+		shadowOpacity: 0.25,
+		shadowRadius: 4,
+		elevation: 5,
+	},
+	centeredView: {
+		flex: 1,
+		justifyContent: "center",
+		alignItems: "center",
+		marginTop: 22,
+	},
+	modalText: {
+		marginBottom: 15,
+		textAlign: "center",
+		fontSize: 18,
+		fontWeight: "bold",
+	},
+	button: {
+		borderRadius: 20,
+		padding: 10,
+		elevation: 2,
+	},
+	buttonClose: {
+		backgroundColor: "#2196F3",
+	},
+	textStyle: {
+		color: "white",
+		fontWeight: "bold",
+		textAlign: "center",
 	},
 });
 

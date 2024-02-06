@@ -1,7 +1,7 @@
 import { Ionicons } from "@expo/vector-icons";
 import React, { useState } from "react";
 import {
-	Alert,
+	Modal,
 	StyleSheet,
 	Text,
 	TextInput,
@@ -9,12 +9,14 @@ import {
 	View,
 } from "react-native";
 import { BASE_API_URL } from "../../../config";
-
+import { useUser } from "../../context/UserContext";
 function SignInPage({ navigation }) {
 	const [showEmailSignIn, setShowEmailSignIn] = useState(false);
 	const [username, setUsername] = useState("");
 	const [password, setPassword] = useState("");
 	const [isButtonHovered, setIsButtonHovered] = useState(false);
+	const [modalVisible, setModalVisible] = useState(false);
+	const [modalMessage, setModalMessage] = useState("");
 	const handleButtonPressIn = () => {
 		setIsButtonHovered(true);
 	};
@@ -22,6 +24,7 @@ function SignInPage({ navigation }) {
 	const handleButtonPressOut = () => {
 		setIsButtonHovered(false);
 	};
+	const { setUser } = useUser();
 	const signIn = async () => {
 		try {
 			const response = await fetch(`${BASE_API_URL}/users/login`, {
@@ -36,22 +39,23 @@ function SignInPage({ navigation }) {
 			});
 
 			if (response.ok) {
-				const data = await response.text();
-				navigation.navigate('Home');
+				navigation.navigate("Home");
 			} else {
-				Alert.alert("Giriş başarısız", "Kullanıcı adı veya şifre yanlış");
+				setModalMessage("Kullanıcı adı veya şifre yanlış");
+				setModalVisible(true);
 			}
 		} catch (error) {
-			Alert.alert("Hata", "Bir hata oluştu. Lütfen tekrar deneyin.");
+			setModalMessage("Bir hata oluştu. Lütfen tekrar deneyin.");
+			setModalVisible(true);
 		}
 	};
 
 	const renderEmailSignInForm = () => (
 		<View>
-			<Text style={styles.label}>Kullanıcı Adı</Text>
+			<Text style={styles.label}>Mail Adresi</Text>
 			<TextInput
 				style={styles.input}
-				placeholder="Kullanıcı adını gir"
+				placeholder="Mail adresini gir"
 				value={username}
 				onChangeText={setUsername}
 			/>
@@ -119,6 +123,26 @@ function SignInPage({ navigation }) {
 						Şimdi Oluştur
 					</Text>
 				</View>
+				<Modal
+					animationType="slide"
+					transparent={true}
+					visible={modalVisible}
+					onRequestClose={() => {
+						setModalVisible(!modalVisible);
+					}}
+				>
+					<View style={styles.centeredModalView}>
+						<View style={styles.modalView}>
+							<Text style={styles.modalText}>{modalMessage}</Text>
+							<TouchableOpacity
+								style={styles.buttonClose}
+								onPress={() => setModalVisible(false)}
+							>
+								<Text style={styles.textStyle}>Tamam</Text>
+							</TouchableOpacity>
+						</View>
+					</View>
+				</Modal>
 			</View>
 		</View>
 	);
@@ -206,6 +230,44 @@ const styles = StyleSheet.create({
 	forgotPasswordText: {
 		color: "#673AB7",
 		textDecorationLine: "underline",
+	},
+	centeredModalView: {
+		flex: 1,
+		justifyContent: "center",
+		alignItems: "center",
+		marginTop: 22,
+		backgroundColor: "rgba(0, 0, 0, 0.5)", // semi-transparent background
+	},
+	modalView: {
+		margin: 20,
+		backgroundColor: "white",
+		borderRadius: 20,
+		padding: 35,
+		alignItems: "center",
+		shadowColor: "#000",
+		shadowOffset: {
+			width: 0,
+			height: 2,
+		},
+		shadowOpacity: 0.25,
+		shadowRadius: 4,
+		elevation: 5,
+	},
+	modalText: {
+		marginBottom: 15,
+		textAlign: "center",
+		fontWeight: "bold",
+	},
+	buttonClose: {
+		backgroundColor: "#2196F3",
+		borderRadius: 20,
+		padding: 10,
+		elevation: 2,
+	},
+	textStyle: {
+		color: "white",
+		fontWeight: "bold",
+		textAlign: "center",
 	},
 });
 

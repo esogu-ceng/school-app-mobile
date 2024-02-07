@@ -1,8 +1,9 @@
+import 'react-native-gesture-handler';
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import { NativeBaseProvider } from "native-base";
 import React from "react";
-import HomePage from "./src/containers/homePage/homePage";
+import DrawerNav from "./src/containers/drawer/drawer";
 import ResetPasswordPage from "./src/containers/resetPasswordPage/resetPasswordPage";
 import SignInPage from "./src/containers/signInPage/signInPage";
 import SignUpPage from "./src/containers/signUpPage/signUpPage";
@@ -17,7 +18,7 @@ function App() {
 			<AppProvider>
 				<UserProvider>
 					<NavigationContainer>
-						<Stack.Navigator initialRouteName="Welcome">
+						<Stack.Navigator initialRouteName="Home">
 							<Stack.Screen
 								name="Welcome"
 								component={WelcomePage}
@@ -35,7 +36,7 @@ function App() {
 							/>
 							<Stack.Screen
 								name="Home"
-								component={HomePage}
+								component={DrawerNav}
 								options={{ headerShown: false }}
 							/>
 							<Stack.Screen

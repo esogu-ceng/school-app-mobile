@@ -55,7 +55,7 @@ function HomePage({ navigation }) {
 					<Ionicons name="menu" size={30} color="black" />
 				</TouchableOpacity>
 				<Image
-					source={require("../../../assets/icon.jpg")}
+					source={require("../../../assets/icon.png")}
 					style={styles.logo}
 				/>
 				<Text style={styles.welcomeText}>Özel Yaşam Köyü -İlkokulu </Text>

@@ -17,12 +17,7 @@ function App() {
 			<AppProvider>
 				<UserProvider>
 					<NavigationContainer>
-						<Stack.Navigator initialRouteName="Welcome">
-							<Stack.Screen
-								name="Welcome"
-								component={WelcomePage}
-								options={{ headerShown: false }}
-							/>
+						<Stack.Navigator initialRouteName="Home">
 							<Stack.Screen
 								name="SignIn"
 								component={SignInPage}

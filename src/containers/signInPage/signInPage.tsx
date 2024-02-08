@@ -10,6 +10,7 @@ import {
 } from "react-native";
 import { BASE_API_URL } from "../../../config";
 import { useUser } from "../../context/UserContext";
+import axios from 'axios';
 function SignInPage({ navigation }) {
 	const [showEmailSignIn, setShowEmailSignIn] = useState(false);
 	const [username, setUsername] = useState("");
@@ -26,28 +27,13 @@ function SignInPage({ navigation }) {
 	};
 	const { setUser } = useUser();
 	const signIn = async () => {
-		try {
-			const response = await fetch(`${BASE_API_URL}/users/login`, {
-				method: "POST",
-				headers: {
-					"Content-Type": "application/json",
-				},
-				body: JSON.stringify({
-					mail: username,
-					password: password,
-				}),
-			});
+			const formdata=new FormData();
+			formdata.append('username', username);
+			formdata.append('password', password);
+			const response = await axios(BASE_API_URL + "/login",{method:'POST' , data:formdata
+				
+			}).then(response=>{console.error(response.data)}).catch(error=>{console.error(error)}) 
 
-			if (response.ok) {
-				navigation.navigate("Home");
-			} else {
-				setModalMessage("Kullanıcı adı veya şifre yanlış");
-				setModalVisible(true);
-			}
-		} catch (error) {
-			setModalMessage("Bir hata oluştu. Lütfen tekrar deneyin.");
-			setModalVisible(true);
-		}
 	};
 
 	const renderEmailSignInForm = () => (

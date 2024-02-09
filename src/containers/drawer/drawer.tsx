@@ -6,7 +6,6 @@ import {useNavigation} from '@react-navigation/native'
 
 
 const DrawerList = [
-	{label: 'Ana Sayfa', navigateTo: 'Ana Sayfa'},
 	{label: 'Duyurular', navigateTo: 'Duyurular'},
 	{label: 'Etkinlikler', navigateTo: 'Etkinlikler'},
 	{label: 'Sınıf Gazetesi', navigateTo: 'Sınıf Gazetesi'},
@@ -58,7 +57,7 @@ function DrawerContent(props) {
 
 const Drawer = createDrawerNavigator();
 
-function DrawerNav() {
+function MainPage() {
 	return (
 		<Drawer.Navigator 
 			screenOptions={{headerShown:false}}
@@ -90,4 +89,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default DrawerNav;
+export default MainPage;

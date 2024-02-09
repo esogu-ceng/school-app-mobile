@@ -3,11 +3,10 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import { NativeBaseProvider } from "native-base";
 import React from "react";
-import DrawerNav from "./src/containers/drawer/drawer";
+import MainPage from "./src/containers/drawer/drawer";
 import ResetPasswordPage from "./src/containers/resetPasswordPage/resetPasswordPage";
 import SignInPage from "./src/containers/signInPage/signInPage";
 import SignUpPage from "./src/containers/signUpPage/signUpPage";
-import WelcomePage from "./src/containers/welcomePage/welcomePage";
 import { AppProvider } from "./src/context/AppContext";
 import { UserProvider } from "./src/context/UserContext";
 const Stack = createStackNavigator();
@@ -18,12 +17,7 @@ function App() {
 			<AppProvider>
 				<UserProvider>
 					<NavigationContainer>
-						<Stack.Navigator initialRouteName="Home">
-							<Stack.Screen
-								name="Welcome"
-								component={WelcomePage}
-								options={{ headerShown: false }}
-							/>
+						<Stack.Navigator initialRouteName="MainPage">
 							<Stack.Screen
 								name="SignIn"
 								component={SignInPage}
@@ -35,8 +29,8 @@ function App() {
 								options={{ headerShown: false }}
 							/>
 							<Stack.Screen
-								name="Home"
-								component={DrawerNav}
+								name="MainPage"
+								component={MainPage}
 								options={{ headerShown: false }}
 							/>
 							<Stack.Screen

@@ -14,7 +14,7 @@ const Stack = createStackNavigator();
 
 function MenuPages() {
 	return (
-		<Stack.Navigator>
+		<Stack.Navigator initialRouteName="Ana Sayfa">
 			<Stack.Screen
 				name="Ana Sayfa" 
 				component={HomePage}

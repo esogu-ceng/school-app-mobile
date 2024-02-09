@@ -18,6 +18,7 @@ function App() {
 				<UserProvider>
 					<NavigationContainer>
 						<Stack.Navigator initialRouteName="MainPage">
+
 							<Stack.Screen
 								name="SignIn"
 								component={SignInPage}

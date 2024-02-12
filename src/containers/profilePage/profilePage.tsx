@@ -13,7 +13,7 @@ import FeatherIcon from 'react-native-vector-icons/Feather';
 
 const SECTIONS = [
 	{
-    header: 'Content',
+    header: 'Bilet Bilgileri',
     items: [
 	  { id: 'recenttickets', icon: 'shopping-bag', label: 'Biletlerim', type: 'link' },
       { id: 'pasttickets', icon: 'list', label: 'Geçmiş Biletlerim', type: 'link' },
@@ -21,7 +21,7 @@ const SECTIONS = [
     ],
   },
   {
-    header: 'Help',
+    header: 'Yardım',
     items: [
       { id: 'bug', icon: 'flag', label: 'Sorun Bildir', type: 'link' },
       { id: 'contact', icon: 'mail', label: 'Bize Ulaşın', type: 'link' },
@@ -40,7 +40,7 @@ export default function Example() {
     <SafeAreaView style={{ backgroundColor: '#f6f6f6' }}>
       <ScrollView contentContainerStyle={styles.container}>
         <View style={styles.header}>
-          <Text style={styles.title}>Profile</Text>
+          <Text style={styles.title}>Profil</Text>
         </View>
 
         <View style={styles.profile}>
@@ -55,7 +55,7 @@ export default function Example() {
               // handle onPress
             }}>
             <View style={styles.profileAction}>
-              <Text style={styles.profileActionText}>Edit Profile</Text>
+              <Text style={styles.profileActionText}>Profili Düzenle</Text>
 
               <FeatherIcon color="#fff" name="edit" size={16} />
             </View>

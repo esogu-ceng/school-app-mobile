@@ -19,7 +19,7 @@ export function HeaderTitle(){
 	return (
 		<View>
   			<View>
-    			<Image source={require('../../../assets/icon.jpg')} style={styles.logo} />
+    			<Image source={require('../../../assets/icon.png')} style={styles.logo} />
     		</View>
     	</View>
   	);

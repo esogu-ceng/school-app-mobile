@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Button, Text, View, StyleSheet, TextInput, Linking, TouchableOpacity, Clipboard, Share } from 'react-native';
+import { BASE_API_URL } from "../../../config";
 
 function BuyingTickets({ navigation }) {
   const [ticketCount, setTicketCount] = useState('1');
@@ -7,7 +8,7 @@ function BuyingTickets({ navigation }) {
   const [ticketUrls, setTicketUrls] = useState([]);
 
   const handleSubmit = async () => {
-    const apiUrl = 'http://localhost:8080/tickets/getSequentialTicket';
+	const apiUrl = `${BASE_API_URL}/tickets/getSequentialTicket`;
     const params = new URLSearchParams();
     params.append('activityId', '1');
     params.append('count', ticketCount); 

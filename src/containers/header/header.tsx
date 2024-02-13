@@ -33,7 +33,7 @@ export function HeaderNotifications() {
     <View>
       <View>
         <View style={styles.icons}>
-          <TouchableOpacity onPress={() => navigation.navigate('')}>
+          <TouchableOpacity >
             <Ionicons name="notifications" size={30} color="black" />
           </TouchableOpacity>
         </View>

@@ -19,7 +19,27 @@ function App() {
 			<AppProvider>
 				<UserProvider>
 					<NavigationContainer>
-						<Stack.Navigator initialRouteName="MainPage">
+						<Stack.Navigator initialRouteName="SignIn">
+						<Stack.Screen
+								name="SignIn"
+								component={SignInPage}
+								options={{ headerShown: false }}
+							/>
+							<Stack.Screen
+								name="SignUp"
+								component={SignUpPage}
+								options={{ headerShown: false }}
+							/>
+							<Stack.Screen
+								name="MainPage"
+								component={MainPage}
+								options={{ headerShown: false }}
+							/>
+							<Stack.Screen
+								name="ResetPasswordPage"
+								component={ResetPasswordPage}
+								options={{ headerShown: false }}
+							/>
 							<Stack.Screen
 								name="BuyingTickets"
 								component={BuyingTickets}

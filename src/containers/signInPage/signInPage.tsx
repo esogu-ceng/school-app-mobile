@@ -12,7 +12,7 @@ import { BASE_API_URL } from "../../../config";
 import { useUser } from "../../context/UserContext";
 import axios from 'axios';
 function SignInPage({ navigation }) {
-	const [showEmailSignIn, setShowEmailSignIn] = useState(false);
+	const [showEmailSignIn, setShowEmailSignIn] = useState(true);
 	const [username, setUsername] = useState("");
 	const [password, setPassword] = useState("");
 	const [isButtonHovered, setIsButtonHovered] = useState(false);
@@ -80,26 +80,9 @@ function SignInPage({ navigation }) {
 		<View style={styles.container}>
 			<View style={styles.signInContainer}>
 				<Text style={styles.headerText}>Giriş Yap</Text>
-
-				{showEmailSignIn ? (
-					renderEmailSignInForm()
-				) : (
-					<>
-						<TouchableOpacity
-							style={styles.emailButton}
-							onPress={() => setShowEmailSignIn(true)}
-						>
-							<Ionicons name="mail" size={24} color="black" />
-							<Text>E-posta ile giriş yap</Text>
-						</TouchableOpacity>
-
-						<TouchableOpacity style={styles.googleButton}>
-							<Ionicons name="logo-google" size={24} color="white" />
-							<Text>Google ile giriş yap</Text>
-						</TouchableOpacity>
-					</>
-				)}
-
+	
+				{renderEmailSignInForm()}
+	
 				<View style={styles.footer}>
 					<Text>Hesabın yok mu? </Text>
 					<Text

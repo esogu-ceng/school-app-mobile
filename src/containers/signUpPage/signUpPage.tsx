@@ -1,4 +1,3 @@
-import { Ionicons } from "@expo/vector-icons";
 import React, { useState } from "react";
 import {
 	Modal,
@@ -10,9 +9,9 @@ import {
 } from "react-native";
 import { BASE_API_URL } from "../../../config";
 import { useUser } from "../../context/UserContext";
+
 const SignUpPage = ({ navigation }) => {
 	const [modalVisible, setModalVisible] = useState(false);
-	const [showEmailSignUp, setShowEmailSignUp] = useState(false);
 	const [name, setName] = useState("");
 	const [surname, setSurname] = useState("");
 	const [email, setEmail] = useState("");
@@ -20,103 +19,83 @@ const SignUpPage = ({ navigation }) => {
 	const [modalMessage, setModalMessage] = useState("");
 	const [isSignUpSuccess, setIsSignUpSuccess] = useState(false);
 	const { setUser } = useUser();
+
 	const signUp = async () => {
 		try {
-		  const response = await fetch(`${BASE_API_URL}/users`, {
-			 method: "POST",
-			 headers: {
-				"Content-Type": "application/json",
-			 },
-			 body: JSON.stringify({
-				name: name,
-				surname: surname,
-				mail: email,
-				password: password,
-			 }),
-		  });
-	 
-		  if (response.ok) {
-			 const data = await response.json(); 
-			 setIsSignUpSuccess(true);
-			 setModalMessage("Kayıt işlemi başarılı.");
-			 setUser(data);
-			 navigation.navigate("Home", { userName: data.name });
-		  } else {
-			 const errorData = await response.json(); 
-			 setIsSignUpSuccess(false);
-			 setModalMessage(errorData.message || "Bir hata oluştu.");
-			 setModalVisible(true);
-		  }
+			const response = await fetch(`${BASE_API_URL}/users`, {
+				method: "POST",
+				headers: {
+					"Content-Type": "application/json",
+				},
+				body: JSON.stringify({
+					name: name,
+					surname: surname,
+					mail: email,
+					password: password,
+				}),
+			});
+
+			if (response.ok) {
+				const data = await response.json();
+				setIsSignUpSuccess(true);
+				setModalMessage("Kayıt işlemi başarılı.");
+				setUser(data);
+				navigation.navigate("Home", { userName: data.name });
+			} else {
+				const errorData = await response.json();
+				setIsSignUpSuccess(false);
+				setModalMessage(errorData.message || "Bir hata oluştu.");
+				setModalVisible(true);
+			}
 		} catch (error) {
-		  console.error(error);
-		  setIsSignUpSuccess(false);
-		  setModalMessage("Bir hata oluştu. Lütfen tekrar deneyin.");
-		  setModalVisible(true);
+			console.error(error);
+			setIsSignUpSuccess(false);
+			setModalMessage("Bir hata oluştu. Lütfen tekrar deneyin.");
+			setModalVisible(true);
 		}
-	 };
-
-	const renderEmailSignUpForm = () => (
-		<View>
-			<Text style={styles.label}>Ad</Text>
-			<TextInput
-				style={styles.input}
-				placeholder="Adınızı girin"
-				value={name}
-				onChangeText={setName}
-			/>
-
-			<Text style={styles.label}>Soyad</Text>
-			<TextInput
-				style={styles.input}
-				placeholder="Soyadınızı girin"
-				value={surname}
-				onChangeText={setSurname}
-			/>
-
-			<Text style={styles.label}>E-posta</Text>
-			<TextInput
-				style={styles.input}
-				placeholder="E-postanızı girin"
-				value={email}
-				onChangeText={setEmail}
-			/>
-
-			<Text style={styles.label}>Şifre</Text>
-			<TextInput
-				style={styles.input}
-				placeholder="Şifrenizi girin"
-				value={password}
-				onChangeText={setPassword}
-				secureTextEntry={true}
-			/>
-
-			<TouchableOpacity style={styles.signUpButton} onPress={signUp}>
-				<Text style={styles.signUpButtonText}>Kayıt Ol</Text>
-			</TouchableOpacity>
-		</View>
-	);
+	};
 
 	return (
 		<View style={styles.container}>
 			<View style={styles.signUpContainer}>
-				{showEmailSignUp ? (
-					renderEmailSignUpForm()
-				) : (
-					<>
-						<TouchableOpacity
-							style={styles.emailButton}
-							onPress={() => setShowEmailSignUp(true)}
-						>
-							<Ionicons name="mail" size={24} color="black" />
-							<Text>E-posta ile kayıt ol</Text>
-						</TouchableOpacity>
+				<>
+					<Text style={styles.label}>Ad</Text>
+					<TextInput
+						style={styles.input}
+						placeholder="Adınızı girin"
+						value={name}
+						onChangeText={setName}
+					/>
 
-						<TouchableOpacity style={styles.googleButton}>
-							<Ionicons name="logo-google" size={24} color="white" />
-							<Text>Google ile kayıt ol</Text>
-						</TouchableOpacity>
-					</>
-				)}
+					<Text style={styles.label}>Soyad</Text>
+					<TextInput
+						style={styles.input}
+						placeholder="Soyadınızı girin"
+						value={surname}
+						onChangeText={setSurname}
+					/>
+
+					<Text style={styles.label}>E-posta</Text>
+					<TextInput
+						style={styles.input}
+						placeholder="E-postanızı girin"
+						value={email}
+						onChangeText={setEmail}
+					/>
+
+					<Text style={styles.label}>Şifre</Text>
+					<TextInput
+						style={styles.input}
+						placeholder="Şifrenizi girin"
+						value={password}
+						onChangeText={setPassword}
+						secureTextEntry={true}
+					/>
+
+					<TouchableOpacity style={styles.signUpButton} onPress={signUp}>
+						<Text style={styles.signUpButtonText}>Kayıt Ol</Text>
+					</TouchableOpacity>
+				</>
 
 				<Modal
 					animationType="slide"
@@ -128,8 +107,10 @@ const SignUpPage = ({ navigation }) => {
 				>
 					<View style={styles.centeredView}>
 						<View style={styles.modalView}>
-							<Text style={styles.modalText}>Kayıt Başarılı!</Text>
-							<Text>Kaydınız başarıyla tamamlandı.</Text>
+							<Text style={styles.modalText}>
+								{isSignUpSuccess ? "Kayıt Başarılı!" : "Hata"}
+							</Text>
+							<Text>{modalMessage}</Text>
 						</View>
 					</View>
 				</Modal>

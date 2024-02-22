@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext} from "react";
 import {
 	Modal,
 	StyleSheet,
@@ -9,6 +9,7 @@ import {
 } from "react-native";
 import { BASE_API_URL } from "../../../config";
 import { useUser } from "../../context/UserContext";
+import { AppContext } from "../../context/AppContext";
 
 const SignUpPage = ({ navigation }) => {
 	const [modalVisible, setModalVisible] = useState(false);
@@ -18,8 +19,9 @@ const SignUpPage = ({ navigation }) => {
 	const [password, setPassword] = useState("");
 	const [modalMessage, setModalMessage] = useState("");
 	const [isSignUpSuccess, setIsSignUpSuccess] = useState(false);
+	const [tckn, setTckn] = useState("");
 	const { setUser } = useUser();
-
+	const { dispatch } = useContext(AppContext);
 	const signUp = async () => {
 		try {
 			const response = await fetch(`${BASE_API_URL}/users`, {
@@ -32,6 +34,7 @@ const SignUpPage = ({ navigation }) => {
 					surname: surname,
 					mail: email,
 					password: password,
+					tckn: tckn,
 				}),
 			});
 
@@ -39,8 +42,9 @@ const SignUpPage = ({ navigation }) => {
 				const data = await response.json();
 				setIsSignUpSuccess(true);
 				setModalMessage("Kayıt işlemi başarılı.");
+				dispatch({ type: "LOGIN", payload: data });
 				setUser(data);
-				navigation.navigate("Home", { userName: data.name });
+				navigation.navigate("MainPage", { userName: data.name });
 			} else {
 				const errorData = await response.json();
 				setIsSignUpSuccess(false);
@@ -59,6 +63,14 @@ const SignUpPage = ({ navigation }) => {
 		<View style={styles.container}>
 			<View style={styles.signUpContainer}>
 				<>
+					<Text style={styles.label}>TC Kimlik No</Text>
+					<TextInput
+						style={styles.input}
+						placeholder="TC kimlik numaranızı girin"
+						value={tckn}
+						onChangeText={setTckn}
+						keyboardType="numeric"
+					/>
 					<Text style={styles.label}>Ad</Text>
 					<TextInput
 						style={styles.input}

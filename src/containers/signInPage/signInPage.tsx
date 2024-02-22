@@ -1,6 +1,7 @@
 import { Ionicons } from "@expo/vector-icons";
 import React, { useState } from "react";
 import {
+	Alert,
 	Modal,
 	StyleSheet,
 	Text,
@@ -13,7 +14,7 @@ import { useUser } from "../../context/UserContext";
 import axios from 'axios';
 function SignInPage({ navigation }) {
 	const [showEmailSignIn, setShowEmailSignIn] = useState(true);
-	const [username, setUsername] = useState("");
+	const [tckn, setTckn] = useState("");
 	const [password, setPassword] = useState("");
 	const [isButtonHovered, setIsButtonHovered] = useState(false);
 	const [modalVisible, setModalVisible] = useState(false);
@@ -27,29 +28,43 @@ function SignInPage({ navigation }) {
 	};
 	const { setUser } = useUser();
 	const signIn = async () => {
-			const formdata=new FormData();
-			formdata.append('username', username);
-			formdata.append('password', password);
-			const response = await axios(BASE_API_URL + "/login",{method:'POST' , data:formdata
-				
-			}).then(response=>{console.error(response.data)}).catch(error=>{console.error(error)}) 
-
-	};
+		try {
+		  const response = await fetch(`${BASE_API_URL}/users/login`, {
+			 method: "POST",
+			 headers: {
+				"Content-Type": "application/json",
+			 },
+			 body: JSON.stringify({
+				tckn: tckn, 
+				password: password,
+			 }),
+		  });
+  
+		  if (response.ok) {
+			 const data = await response.text();
+			 navigation.navigate('MainPage');
+		  } else {
+			 Alert.alert("Giriş başarısız", "TC kimlik numarası veya şifre yanlış");
+		  }
+		} catch (error) {
+		  Alert.alert("Hata", "Bir hata oluştu. Lütfen tekrar deneyin.");
+		}
+	 };
 
 	const renderEmailSignInForm = () => (
 		<View>
-			<Text style={styles.label}>Mail Adresi</Text>
+			<Text style={styles.label}>TC Kimlik No</Text>
 			<TextInput
 				style={styles.input}
-				placeholder="Mail adresini gir"
-				value={username}
-				onChangeText={setUsername}
+				placeholder="TC kimlik numaranızı girin "
+				value={tckn}
+				onChangeText={setTckn}
 			/>
 
 			<Text style={styles.label}>Şifre</Text>
 			<TextInput
 				style={styles.input}
-				placeholder="Şifreni gir"
+				placeholder="Şifrenizi girin"
 				value={password}
 				onChangeText={setPassword}
 				secureTextEntry={true}

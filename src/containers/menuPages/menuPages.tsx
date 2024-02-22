@@ -8,6 +8,7 @@ import PaymentPage from '../paymentPage/paymentPage'
 import ProfilePage from '../profilePage/profilePage'
 import RequirementPage from '../requirementPage/requirementPage'
 import SchedulePage from '../schedulePage/schedulePage'
+import QRScanner from '../qrResponsePage/QRResponsePage';
 import { HeaderMenu, HeaderTitle, HeaderNotifications } from '../header/header';
 
 const Stack = createStackNavigator();
@@ -51,6 +52,10 @@ function MenuPages() {
 			<Stack.Screen
 				name="Ders Programı" 
 				component={SchedulePage}
+			/>
+			<Stack.Screen
+				name="QR Kod Okuyucu" 
+				component={QRScanner}
 			/>
 		</Stack.Navigator>
 	);

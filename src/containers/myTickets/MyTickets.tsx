@@ -1,8 +1,7 @@
 import React from 'react';
-import { View, Text, StyleSheet, Button, Platform } from 'react-native';
-import { useState, useEffect } from 'react';
+import { View, StyleSheet, Button, Platform } from 'react-native';
 
-const QRScanner = () => {
+const MyTickets = () => {
     const scanQR = () => {
         if (Platform.OS === 'web') {
             // QR kod okuyucu webde çalışmamalı bence
@@ -22,7 +21,7 @@ const QRScanner = () => {
         </View>
     );
 };
-export default QRScanner;
+export default MyTickets;
 
 const styles = StyleSheet.create({
     centeredView: {

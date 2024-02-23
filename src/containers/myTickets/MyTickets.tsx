@@ -1,6 +1,5 @@
 import React from 'react';
 import { View, Text, StyleSheet, Button, Platform } from 'react-native';
-import { BarCodeScanner } from 'expo-barcode-scanner';
 import { useState, useEffect } from 'react';
 
 const QRScanner = () => {
@@ -28,8 +27,7 @@ export default QRScanner;
 const styles = StyleSheet.create({
     centeredView: {
         flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
+        alignItems: 'flex-end',
         marginTop: 22
     }
 });

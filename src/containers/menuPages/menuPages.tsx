@@ -8,7 +8,7 @@ import PaymentPage from '../paymentPage/paymentPage'
 import ProfilePage from '../profilePage/profilePage'
 import RequirementPage from '../requirementPage/requirementPage'
 import SchedulePage from '../schedulePage/schedulePage'
-import QRScanner from '../qrResponsePage/QRResponsePage';
+import MyTickets from '../myTickets/MyTickets';
 import { HeaderMenu, HeaderTitle, HeaderNotifications } from '../header/header';
 
 const Stack = createStackNavigator();
@@ -55,7 +55,7 @@ function MenuPages() {
 			/>
 			<Stack.Screen
 				name="QR Kod Okuyucu" 
-				component={QRScanner}
+				component={MyTickets}
 			/>
 		</Stack.Navigator>
 	);

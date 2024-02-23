@@ -13,6 +13,7 @@ const DrawerList = [
 	{label: 'Okul Gereksinimleri', navigateTo: 'Okul Gereksinimleri'},
 	{label: 'Ders Programı', navigateTo: 'Ders Programı'},
 	{label: 'Profil', navigateTo: 'Profil'},
+	{label: 'Biletlerim', navigateTo: 'Biletlerim'}
 ];
 
 const DrawerLayout = ({label, navigateTo}) => {

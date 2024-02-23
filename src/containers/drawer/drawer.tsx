@@ -13,7 +13,7 @@ const DrawerList = [
 	{label: 'Okul Gereksinimleri', navigateTo: 'Okul Gereksinimleri'},
 	{label: 'Ders Programı', navigateTo: 'Ders Programı'},
 	{label: 'Profil', navigateTo: 'Profil'},
-	{label: 'QR Kod Okuyucu', navigateTo: 'QR Kod Okuyucu'}
+	{label: 'Biletlerim', navigateTo: 'Biletlerim'}
 ];
 
 const DrawerLayout = ({label, navigateTo}) => {

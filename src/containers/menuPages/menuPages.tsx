@@ -8,7 +8,7 @@ import PaymentPage from '../paymentPage/paymentPage'
 import ProfilePage from '../profilePage/profilePage'
 import RequirementPage from '../requirementPage/requirementPage'
 import SchedulePage from '../schedulePage/schedulePage'
-import MyTickets from '../myTickets/MyTickets';
+import MyTickets from '../myTickets/myTickets';
 import { HeaderMenu, HeaderTitle, HeaderNotifications } from '../header/header';
 
 const Stack = createStackNavigator();
@@ -54,7 +54,7 @@ function MenuPages() {
 				component={SchedulePage}
 			/>
 			<Stack.Screen
-				name="QR Kod Okuyucu" 
+				name="Biletlerim" 
 				component={MyTickets}
 			/>
 		</Stack.Navigator>

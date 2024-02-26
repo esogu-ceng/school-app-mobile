@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import {
 	Modal,
 	StyleSheet,
@@ -8,6 +8,7 @@ import {
 	View,
 } from "react-native";
 import { BASE_API_URL } from "../../../config";
+import { AppContext } from "../../context/AppContext";
 import { useUser } from "../../context/UserContext";
 
 const SignUpPage = ({ navigation }) => {
@@ -18,8 +19,10 @@ const SignUpPage = ({ navigation }) => {
 	const [password, setPassword] = useState("");
 	const [modalMessage, setModalMessage] = useState("");
 	const [isSignUpSuccess, setIsSignUpSuccess] = useState(false);
+	const [tckn, setTckn] = useState("");
+	const [tcknError, setTcknError] = useState("");
 	const { setUser } = useUser();
-
+	const { dispatch } = useContext(AppContext);
 	const signUp = async () => {
 		try {
 			const response = await fetch(`${BASE_API_URL}/users`, {
@@ -32,6 +35,7 @@ const SignUpPage = ({ navigation }) => {
 					surname: surname,
 					mail: email,
 					password: password,
+					tckn: tckn,
 				}),
 			});
 
@@ -39,8 +43,9 @@ const SignUpPage = ({ navigation }) => {
 				const data = await response.json();
 				setIsSignUpSuccess(true);
 				setModalMessage("Kayıt işlemi başarılı.");
+				dispatch({ type: "LOGIN", payload: data });
 				setUser(data);
-				navigation.navigate("Home", { userName: data.name });
+				navigation.navigate("MainPage", { userName: data.name });
 			} else {
 				const errorData = await response.json();
 				setIsSignUpSuccess(false);
@@ -54,11 +59,33 @@ const SignUpPage = ({ navigation }) => {
 			setModalVisible(true);
 		}
 	};
+	const validateTckn = (text) => {
+		if (!/^\d*$/.test(text)) {
+			setTcknError("TC Kimlik No sadece sayısal ifade içermelidir.");
+		} else if (text.length > 11||text.length < 11) {
+			setTcknError("TC Kimlik No 11 hane olmalıdır.");
+		} else {
+			setTcknError("");
+		}
+		setTckn(text);
+	};
 
 	return (
 		<View style={styles.container}>
 			<View style={styles.signUpContainer}>
 				<>
+					<Text style={styles.label}>TC Kimlik No</Text>
+					<TextInput
+						style={styles.input}
+						placeholder="TC kimlik numaranızı girin"
+						value={tckn}
+						onChangeText={validateTckn}
+						keyboardType="numeric"
+						maxLength={11}
+					/>
+					{!!tcknError && (
+						<Text style={styles.errorText}>{tcknError}</Text>
+					)}
 					<Text style={styles.label}>Ad</Text>
 					<TextInput
 						style={styles.input}
@@ -247,6 +274,11 @@ const styles = StyleSheet.create({
 		fontWeight: "bold",
 		textAlign: "center",
 	},
+	errorText: {
+		color: 'red',
+		fontSize: 12,
+		marginTop: 5,
+	 },
 });
 
 export default SignUpPage;

@@ -6,7 +6,7 @@ import axios from 'axios';
 export default function App() {
   const [hasPermission, setHasPermission] = useState(null);
   const [scanned, setScanned] = useState(false);
-  const [data, setData] = useState([]);
+  const [response, setResponse] = useState(null);
 
   useEffect(() => {
     (async () => {
@@ -19,12 +19,12 @@ export default function App() {
     	 setScanned(true);
 		 //replace string
 		 data = data.replace("8443", "8444");
-		 axios.get(data)
+		 axios.post(data)
 		.then(response => {
-			console.log(response.data);
+			setResponse(response.data);
 		})
 		.catch(error => {
-			console.error("Error sending data: ", error);
+			setResponse({seatLine: '', seatNumber: '', currentStatus: 'GEÇERSİZ BİLET'});
 		});
   };
 
@@ -35,6 +35,24 @@ export default function App() {
           onBarCodeScanned={scanned ? undefined : handleBarCodeScanned}
           style={styles.camera}
         />
+      </View>
+    );
+  };
+
+  const renderValid = () => {
+    return (
+      <View style={styles.validContainer}>
+        <Text style={styles.title}>Geçerli bilet</Text>
+		<Text style={styles.title}>{response.seatLine} - {response.seatNumber}</Text>
+      </View>
+    );
+  };
+
+  const renderNotValid = () => {
+    return (
+      <View style={styles.notValidContainer}>
+        <Text style={styles.title}>Geçersiz bilet</Text>
+		<Text style={styles.title}>{response.seatLine} - {response.seatNumber} - {response.currentStatus}</Text>
       </View>
     );
   };
@@ -55,13 +73,19 @@ export default function App() {
     <View style={styles.container}>
       <Text style={styles.title}>Konser Alanına hoş geldiniz!</Text>
       <Text style={styles.paragraph}>Bilette yer alan Karekodu okutunuz</Text>
-      {renderCamera()}
-      <TouchableOpacity
+      {!response && renderCamera()}
+	  {response && response.currentStatus == 'VALID' && renderValid()}
+	  {response && response.currentStatus != 'VALID' && renderNotValid()}
+	  <TouchableOpacity
         style={styles.button}
-        onPress={() => setScanned(false)}
+        onPress={() => {
+			setScanned(false);
+			setResponse(null);
+		}}
       >
-        <Text style={styles.buttonText}>Bilette yer alan Karekodu okutunuz</Text>
+        <Text style={styles.buttonText}>Yeni Bilet Oku</Text>
       </TouchableOpacity>
+	  
     </View>
   );
 }
@@ -76,6 +100,7 @@ const styles = StyleSheet.create({
     fontSize: 24,
     fontWeight: 'bold',
     marginBottom: 20,
+	center: true
   },
   paragraph: {
     fontSize: 16,
@@ -86,7 +111,27 @@ const styles = StyleSheet.create({
     aspectRatio: 1,
     overflow: 'hidden',
     borderRadius: 10,
+    marginBottom: 40
+  },
+  validContainer: {
+    width: '80%',
+    aspectRatio: 1,
+    overflow: 'hidden',
+    borderRadius: 10,
     marginBottom: 40,
+	backgroundColor: 'green',
+	alignItems: 'center',
+    justifyContent: 'center',
+  },
+  notValidContainer: {
+	width: '80%',
+	aspectRatio: 1,
+	overflow: 'hidden',
+	borderRadius: 10,
+	marginBottom: 40,
+	backgroundColor: 'red',
+	alignItems: 'center',
+    justifyContent: 'center',
   },
   camera: {
     flex: 1,
@@ -96,10 +141,14 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     paddingVertical: 10,
     borderRadius: 5,
+    alignItems: 'center',
+    justifyContent: 'center',
+    height: 150,
+    width: 250,
   },
   buttonText: {
     color: 'white',
-    fontSize: 16,
+    fontSize: 20,
     fontWeight: 'bold',
   },
 });

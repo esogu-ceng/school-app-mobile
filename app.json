@@ -2,6 +2,7 @@
   "expo": {
     "name": "bbom-ucan-bisiklet",
     "slug": "bbom-ucan-bisiklet",
+    "owner": "esogu-ceng",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -30,6 +31,12 @@
       "eas": {
         "projectId": "a09e5d8b-6d15-4800-bd8b-7aeec1039823"
       }
+    },
+    "runtimeVersion": {
+      "policy": "appVersion"
+    },
+    "updates": {
+      "url": "https://u.expo.dev/a09e5d8b-6d15-4800-bd8b-7aeec1039823"
     }
   }
 }
